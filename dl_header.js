@@ -1,3 +1,5 @@
+'use strict';
+
 var year = 2021;
 var mon  = 9;
 var day  = 30;

@@ -1,3 +1,6 @@
+'use strict';
+
+
 // DL8 Type-D
 // Ver 1.12.71
 var do_chs = 16;

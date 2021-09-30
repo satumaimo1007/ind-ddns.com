@@ -1,3 +1,5 @@
+'use strict';
+
 function doReloadWithCashe(){
     window.location.reload(false);
 }
