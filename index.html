@@ -602,7 +602,7 @@ function refresh_rate()
       const signals = document.getElementsByClassName("signal");
 
       for (let i = 0; i < 16; i++){
-        if (do_data[i] == "ON") {
+        if (di_data[i] == "ON") {
           signals[i].classList.remove('undrive');
         } else {
           signals[i].classList.add('undrive');
