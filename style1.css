@@ -1,0 +1,51 @@
+body {
+    font-family: "MS ã‚´ã‚·ãƒƒã‚¯", sans-serif;
+    font-size: 14px;
+    background: #000;
+    color: #fff;
+}
+
+.container {
+    display: flex;
+}
+
+.table1, .table3, .table5, .table7, .table9, .table11, .table13, .table15 {
+    background: #808080;
+    height: 24px;
+}
+
+.table_header, .table2, .table4, .table6, .table8, .table10, .table12, .table14, .table16 {
+    background: #5a5a5a;
+    height: 24px;
+}
+
+th {
+    border: .5px solid #000;
+}
+
+.ch {
+    width: 52px;
+}
+
+.name {
+    width: 200px;
+}
+
+.signal {
+    width: 100px;
+    background-color: #ff0000;
+}
+
+.signal.undrive {
+    background-color: #00ff00;
+}
+
+button {
+    width: 90px;
+    user-select: none;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
