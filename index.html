@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang=ja>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="style1.css">
+<script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=qUC1lEaQ3qdIyBjz9akfHquCjtPBTN3a6Bv4w-ySRENO5wviur9d6MK-R7naH5p7EoOV8zmREm4yIOFEXmrrJQ" charset="UTF-8"></script>
+<script type="text/javascript" src="script.js"></script>
+<title>操作画面</title>
+<script type="text/javascript" charset="UTF-8"></script>
+<script type="text/javascript" ></script>
+<script type="text/javascript" src="data_do.js"></script>
+<script type="text/javascript" src="data_di.js"></script>
+<script type="text/javascript" src="button_event.js"></script>
+<script type="text/javascript" src="xml_cmd.js" ></script>
+<script type="text/javascript">
+var print_mode = 0;
+var auto_updating = 0;
+
+window.onresize = function() {
+	var table,hh;
+	table = document.getElementById( "area_di" );
+	if( window.innerHeight ){
+		hh = window.innerHeight - 241 - 20;
+	}
+	else if( document.documentElement.clientHeight ){
+		hh = document.documentElement.clientHeight - 241 - 20;
+	} else{
+		return;
+	}
+	table.setAttribute( "style", "height :" + hh + "px" );
+}
+
+window.onload = function() {
+	var table,hh,ch;
+	var row,cell,txt;
+	var str;
+
+	if( button_disable != 0 ){
+		document.getElementById("sel").title = "";
+	}
+
+	update_header();
+
+	table = document.getElementById( "area_di" );
+	hh = window.innerHeight - 241 - 20;
+	table.setAttribute( "style", "height :" + hh + "px" );
+
+	table = document.getElementById( "list_di" );
+	for( ch=0; ch<di_chs; ch++ ) {
+	    row = table.insertRow( ch );
+		if( ch & 1 )	row.setAttribute( "style", "background-color: #5a5a5a" );
+		else			row.setAttribute( "style", "background-color: #808080" );
+
+		row.setAttribute( "height", "24px" );
+
+        cell = row.insertCell(0);
+        cell.setAttribute( "class", "ch" );
+		str = di_ch[ch];
+		txt = document.createTextNode( str );
+		cell.appendChild(txt);
+
+        cell = row.insertCell(1);
+        cell.setAttribute( "class", "name" );
+        str = di_name[ch];
+		txt = document.createTextNode( str );
+		cell.appendChild(txt);
+
+        cell = row.insertCell(2);
+        cell.setAttribute( "class", "tagno" );
+		str = di_comm[ch];
+		txt = document.createTextNode( str );
+		cell.appendChild(txt);
+
+        cell = row.insertCell(3);
+        cell.setAttribute( "class", "counter" );
+		txt = document.createTextNode( di_count[ch] );
+		cell.appendChild(txt);
+
+        cell = row.insertCell(4);
+        cell.setAttribute( "class", "unit" );
+		str = di_unit[ch];
+		txt = document.createTextNode( str );
+		cell.appendChild(txt);
+
+        cell = row.insertCell(5);
+        cell.setAttribute( "class", "reset" );
+		btn = document.createElement("input");
+		btn.setAttribute( "type", "button" );
+		btn.setAttribute( "class", "reset_button" );
+		str = "ResetCi(" + di_chno[ch] + ", '" + di_name[ch] + "');";
+		btn.setAttribute( "onclick", str );
+		if( (button_disable == 1) || (di_enable == 0) ) btn.disabled = true;
+		cell.appendChild(btn);
+
+        cell = row.insertCell(6);
+        cell.setAttribute( "class", "status" );
+		txt = document.createTextNode( di_data[ch] );
+		cell.appendChild(txt);
+
+        cell = row.insertCell(7);
+        cell.setAttribute( "class", "signal" );
+        cell.setAttribute( "style", "background-color: " + di_color[ch] );
+	}
+
+	var pos = getCookie( "POS_DI" );
+	if( pos ){
+		if( pos != 0 ){
+			document.getElementById("area_di").scrollTop = pos;
+			clearCookie( "POS_DI" );
+		}
+	}
+
+	if( button_disable == 0 ){
+		var ref = getCookie("REF_DI");
+		if( ref == "" ){
+			ref = "0";
+		}
+		if( ref != 0 ){
+			setInterval("update_refresh()",ref*1000);
+		}
+	}
+
+}
+
+function update_refresh()
+{
+	if( print_mode != 0 ) return;
+	if( auto_updating != 0 ) return;
+	auto_updating = 1;
+	update_data_di( update_auto, update_timeout );
+}
+
+function update_timeout()
+{
+	auto_updating = 0;
+}
+
+function update_auto()
+{
+	var ch,table;
+	update_header_time();
+	table = document.getElementById( "list_di" );
+	for( ch=0; ch<di_chs; ch++ ) {
+//		str = di_ch[ch];
+//		table.rows[ch].cells[0].innerHTML = str;
+//		table.rows[ch].cells[1].innerHTML = di_name[ch];
+//		table.rows[ch].cells[2].innerHTML = di_comm[ch];
+		table.rows[ch].cells[3].innerHTML = di_count[ch];
+//		table.rows[ch].cells[4].innerHTML = di_unit[ch];
+		table.rows[ch].cells[6].innerHTML = di_data[ch];
+		table.rows[ch].cells[7].setAttribute( "style", "background-color: " + di_color[ch] );
+	}
+	auto_updating = 0;
+}
+
+function update_local()
+{
+	file_load_ie( "./data_di.html" );
+	file_load_ie( "./data_di.js" );
+	var pos = document.getElementById("area_di").scrollTop;
+	if( pos != 0 ){
+		setCookie( "POS_DI", pos );
+	}
+	update();
+}
+
+function data_di_print()
+{
+	if( print_mode == 0 ){
+		print_mode = 1;
+		document.getElementById("area_di").scrollTop = 0;
+		document.getElementById("area_di").className = "area_di_print";
+		alert("print mode");
+	} else{
+		print_mode = 0;
+		document.getElementById("area_di").className = "area_di";
+		window.onresize();
+		alert("normal mode");
+	}
+}
+
+function refresh_rate()
+{
+	if( button_disable != 0 ) return;
+
+	var ref = getCookie("REF_DI");
+	if( ref == "" ){
+		ref = "0";
+	}
+	var rtn = window.prompt( "auto refresh rate 0-999[s]", ref );
+	if( rtn != null ){
+		if( rtn.match(/[^0-9]/) ){
+			alert("input error");
+			return;
+		}
+
+		var num = Number(rtn);
+		if( (num < 0) || (num > 999) ){
+			alert("input error");
+			return;
+		}
+
+		setCookieX( "REF_DI", rtn );
+		update_local();
+	}
+}
+var print_mode = 0;
+var auto_updating = 0;
+
+window.onresize = function() {
+	var table,hh;
+	table = document.getElementById( "area_do" );
+	if( window.innerHeight ){
+		hh = window.innerHeight - 241 - 20;
+	}
+	else if( document.documentElement.clientHeight ){
+		hh = document.documentElement.clientHeight - 241 - 20;
+	} else{
+		return;
+	}
+	table.setAttribute( "style", "height :" + hh + "px" );
+
+}
+
+window.onload = function() {
+
+	var table,hh,ch;
+	var row,cell,txt;
+	var str;
+
+
+
+	table = document.getElementById( "area_do" );
+	hh = window.innerHeight - 241 - 20;
+	
+
+	table = document.getElementById( "list_do" );
+	for( ch=0; ch<do_chs; ch++ ) {
+
+		str = do_ch[ch];
+		txt = document.createTextNode( str );
+
+		str = do_name[ch];
+		txt = document.createTextNode( str );
+
+		str = do_comm[ch];
+		txt = document.createTextNode( str );
+
+		txt = document.createTextNode( do_data[ch] );
+	
+		txt = document.createTextNode( "" );
+
+		btn = document.createElement("input");
+		btn.setAttribute( "type", "button" );
+		btn.setAttribute( "class", "on_button" );
+		str = do_string_on[ch];
+		btn.setAttribute( "value", str );
+		str = "OutputDO(" + do_chno[ch] + ",'ON','" + do_name[ch] + "','" + do_string_on[ch] +  "');";
+		btn.setAttribute( "onclick", str );
+
+		btn = document.createElement("input");
+		btn.setAttribute( "type", "button" );
+		btn.setAttribute( "class", "off_button" );
+		str = do_string_off[ch];
+		btn.setAttribute( "value", str );
+		str = "OutputDO(" + do_chno[ch] + ",'OFF','" + do_name[ch] + "','" + do_string_off[ch] +  "');";
+		btn.setAttribute( "onclick", str );
+	}
+
+	var pos = getCookie( "POS_DO" );
+	if( pos ){
+		if( pos != 0 ){
+			document.getElementById("area_do").scrollTop = pos;
+			clearCookie( "POS_DO" );
+		}
+	}
+
+
+
+	}
+
+
+
+function update_refresh()
+{
+	if( print_mode != 0 ) return;
+	if( auto_updating != 0 ) return;
+	auto_updating = 1;
+	update_data_do( update_auto, update_timeout );
+}
+
+function update_timeout()
+{
+	auto_updating = 0;
+}
+
+function update_auto()
+{
+	var ch,table;
+	update_header_time();
+	table = document.getElementById( "list_do" );
+	for( ch=0; ch<do_chs; ch++ ) {
+//		table.rows[ch].cells[0].innerHTML = do_ch[ch];
+//		table.rows[ch].cells[1].innerHTML = do_name[ch];
+//		table.rows[ch].cells[2].innerHTML = do_comm[ch];
+		table.rows[ch].cells[3].innerHTML = do_data[ch];
+		table.rows[ch].cells[4].setAttribute( "style", "background-color: " + do_color[ch] );
+	}
+	auto_updating = 0;
+}
+
+function update_local()
+{
+	file_load_ie( "./data_do.html" );
+	file_load_ie( "./data_do.js" );
+	var pos = document.getElementById("area_do").scrollTop;
+	if( pos != 0 ){
+		setCookie( "POS_DO", pos );
+	}
+	update();
+}
+
+function data_do_print()
+{
+	if( print_mode == 0 ){
+		print_mode = 1;
+		document.getElementById("area_do").scrollTop = 0;
+		document.getElementById("area_do").className = "area_do_print";
+		alert("print mode");
+	} else{
+		print_mode = 0;
+		document.getElementById("area_do").className = "area_do";
+		window.onresize();
+		alert("normal mode");
+	}
+}
+
+function refresh_rate()
+{
+	if( button_disable != 0 ) return;
+
+	var ref = getCookie("REF_DO");
+	if( ref == "" ){
+		ref = "0";
+	}
+	var rtn = window.prompt( "auto refresh rate 0-999[s]", ref );
+	if( rtn != null ){
+		if( rtn.match(/[^0-9]/) ){
+			alert("input error");
+			return;
+		}
+
+		var num = Number(rtn);
+		if( (num < 0) || (num > 999) ){
+			alert("input error");
+			return;
+		}
+
+		setCookieX( "REF_DO", rtn );
+		update_local();
+	}
+}
+</script>
+
+<script type="text/javascript" src="script.js"></script>
+<meta name="viewport"
+   content="width=320,
+      height=480,
+      initial-scale=1.0,
+      minimum-scale=1.0,
+      maximum-scale=2.0,
+      user-scalable=yes" />
+	  <!--スマホ使用時に表示サイズ変換用https://memorva.jp/memo/mobile/sp_viewport.php-->
+</head>
+
+<body>
+  <table>
+    <thead>
+        <tr class="table_header">
+            <th class="ch_header">Ch</th>
+            <th class="name_header">Name</th>
+            <th class="signal_header">Signal</th>
+            <th class="on_header">
+                <div class="btn">ON</div>
+            </th>
+            <th class="off_header">
+                <div class="btn">OFF</div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="table1">
+            <th class="ch">DI01</th>
+            <th class="name">DIモニタ:No.01</th>
+            <th class="signal undrive"></th>
+            <div class="button1">
+              <th class="on">
+                <button type="button" class="button_onDo" onClick="onDo(1)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table2">
+            <th class="ch">DI02</th>
+            <th class="name">DIモニタ:No.02</th>
+            <th class="signal undrive"></th>
+            <div class="button2">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(2)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table3">
+            <th class="ch">DI03</th>
+            <th class="name">DIモニタ:No.03</th>
+            <th class="signal undrive"></th>
+            <div class="button3">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(3)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table4">
+            <th class="ch">DI04</th>
+            <th class="name">DIモニタ:No.04</th>
+            <th class="signal undrive"></th>
+            <div class="button4">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(4)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table5">
+            <th class="ch">DI05</th>
+            <th class="name">DIモニタ:No.05</th>
+            <th class="signal undrive"></th>
+            <div class="button5">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(5)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table6">
+            <th class="ch">DI06</th>
+            <th class="name">DIモニタ:No.06</th>
+            <th class="signal undrive"></th>
+            <div class="button6">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(6)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table7">
+            <th class="ch">DI07</th>
+            <th class="name">DIモニタ:No.07</th>
+            <th class="signal undrive"></th>
+            <div class="button7">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(7)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table8">
+            <th class="ch">DI08</th>
+            <th class="name">DIモニタ:No.08</th>
+            <th class="signal undrive"></th>
+            <div class="button8">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(8)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table9">
+            <th class="ch">DI09</th>
+            <th class="name">DIモニタ:No.09</th>
+            <th class="signal undrive"></th>
+            <div class="button9">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(9)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table10">
+            <th class="ch">DI10</th>
+            <th class="name">DIモニタ:No.10</th>
+            <th class="signal undrive"></th>
+            <div class="button10">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(10)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table11">
+            <th class="ch">DI11</th>
+            <th class="name">DIモニタ:No.11</th>
+            <th class="signal undrive"></th>
+            <div class="button11">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(11)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table12">
+            <th class="ch">DI12</th>
+            <th class="name">DIモニタ:No.12</th>
+            <th class="signal undrive"></th>
+            <div class="button12">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(12)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table13">
+            <th class="ch">DI13</th>
+            <th class="name">DIモニタ:No.13</th>
+            <th class="signal undrive"></th>
+            <div class="button13">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(13)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table14">
+            <th class="ch">DI14</th>
+            <th class="name">DIモニタ:No.14</th>
+            <th class="signal undrive"></th>
+            <div class="button14">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(14)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table15">
+            <th class="ch">DI15</th>
+            <th class="name">DIモニタ:No.15</th>
+            <th class="signal undrive"></th>
+            <div class="button15">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(15)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+        <tr class="table16">
+            <th class="ch">DI16</th>
+            <th class="name">DIモニタ:No.16</th>
+            <th class="signal undrive"></th>
+            <div class="button16">
+              <th class="on">
+                  <button type="button" class="button_onDo" onClick="onDo(16)">ON</button>
+              </th>
+              <th class="off">
+                  <button type="button" class="button_offDo" onClick="offDo(1)">OFF</button>
+              </th>
+            </div>
+        </tr>
+    </tbody>
+    <script>
+      const signals = document.getElementsByClassName("signal");
+
+      for (let i = 0; i < 16; i++){
+        if (do_data[i] == "ON") {
+          signals[i].classList.remove('undrive');
+        } else {
+          signals[i].classList.add('undrive');
+        }
+      }
+
+    </script>
+
+
+</table>
+</body>
+      
+</html>
