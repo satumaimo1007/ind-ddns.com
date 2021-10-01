@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html><head><title>岩田プランテック&#x20;DL8</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="viewport" content="width=1024">
+<LINK REL="stylesheet" TYPE="text/css" HREF="common.css">
+<script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=9yLuRht9Smn4yu5xem4hAfNjBC1i2hcgshcuV3nOy7S0DZMsfWbikY7oRg5sIYm0KLcSZQ5nPvNgpx3TF9f0Ag" charset="UTF-8"></script>
+<script type="text/javascript" src="button_enable.js"></script>
+<script type="text/javascript" src="data_do.js"></script>
+<script type="text/javascript" src="button_event.js"></script>
+<script type="text/javascript" src="xml_cmd.js" ></script>
+
+<style type="text/css">
+.table_header{
+    width: 500px;
+	table-layout: fixed;
+	word-break: break-all;
+	word-wrap: break-word;
+}
+.area_do{
+	overflow-x: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.area_do_print{
+	overflow-x: visible;
+	overflow-y: visible;
+	-webkit-overflow-scrolling: touch;
+}
+
+.table_do{
+	width : 500px;
+	table-layout: fixed;
+	word-break: break-all;
+	word-wrap: break-word;
+	padding: 1px;
+}
+.ch_header{
+	width : 5%;
+	font-family:"ＭＳ ゴシック";
+	font-size : middle;
+	color : #ffffff;
+	text-align : center;
+	vertical-align : middle;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px 1px 1px 0px;
+}
+.ch{
+	width : 5%;
+	font-family:"ＭＳ ゴシック";
+	font-size : middle;
+	color : #ffffff;
+	text-align : center;
+	vertical-align : middle;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px 1px 1px 0px;
+}
+.name_header{
+	width : 20%;
+	font-family:"ＭＳ ゴシック";
+	font-size : middle;
+	color : #ffffff;
+	text-align : center;
+	vertical-align : middle;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+.name{
+	width : 20%;
+	font-family:"ＭＳ ゴシック";
+	font-size : middle;
+	color : #ffffff;
+	text-align : left;
+	vertical-align : middle;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+
+.signal_header{
+	width : 10%;
+	font-family:"ＭＳ ゴシック";
+	font-size : middle;
+	color : #ffffff;
+	text-align : center;
+	vertical-align : middle;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px 0px 1px 1px;
+}
+.signal{
+	width : 10%;
+	font-family:"ＭＳ ゴシック";
+	font-size : middle;
+	color : #ffffff;
+	text-align : left;
+	vertical-align : middle;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px 0px 1px 1px;
+}
+.on_header{
+	width : 10%;
+	font-family:"ＭＳ ゴシック";
+	font-size : middle;
+	color : #ffffff;
+	text-align : center;
+	vertical-align : middle;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+.on{
+	width : 10%;
+	font-family:"ＭＳ ゴシック";
+	font-size : middle;
+	color : #ffffff;
+	text-align : center;
+	vertical-align : middle;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+.on_button{
+	width: 80px;
+/*	height: 18px;	*/
+	padding: 1px;
+	font-family:"ＭＳ ゴシック";
+	font-size : small;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.off_header{
+	width : 10%;
+	font-family:"ＭＳ ゴシック";
+	font-size : middle;
+	color : #ffffff;
+	text-align : center;
+	vertical-align : middle;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+.off{
+	width : 10%;
+	font-family:"ＭＳ ゴシック";
+	font-size : middle;
+	color : #ffffff;
+	text-align : center;
+	vertical-align : middle;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+}
+.off_button{
+	width: 80px;
+/*	height: 18px;	*/
+	padding: 1px;
+	font-family:"ＭＳ ゴシック";
+	font-size : small;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+</style>
+</head>
+
+<body style="background-color: #000000;">
+
+<!-- DO DATA -->
+<div>
+	<table class="table_header">
+	  <tbody>
+	  <tr style="background-color: #5a5a5a;">
+	    <th class="ch_header">Ch</th>
+	    <th class="name_header">Name</th>
+	    <th class="signal_header">Signal</th>
+	    <th class="on_header">ON</th>
+	    <th class="off_header">OFF</th>
+	  </tr>
+	  </tbody>
+	</table>
+</div>
+<div class="area_do" id="area_do">
+	<table class="table_do" id="list_do">
+	  <tbody>
+        <tr style="background-color: #808080" height="24px">
+            <td class="ch">DO01</td>
+            <td class="name">DO1</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO1','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO1','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #5a5a5a" height="24px">
+            <td class="ch">DO02</td>
+            <td class="name">DO2</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO2','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO2','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #808080" height="24px">
+            <td class="ch">DO03</td>
+            <td class="name">DO3</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO3','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO3','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #5a5a5a" height="24px">
+            <td class="ch">DO04</td>
+            <td class="name">DO4</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO4','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO4','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #808080" height="24px">
+            <td class="ch">DO05</td>
+            <td class="name">DO5</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO5','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO5','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #5a5a5a" height="24px">
+            <td class="ch">DO06</td>
+            <td class="name">DO6</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO6','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO6','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #808080" height="24px">
+            <td class="ch">DO07</td>
+            <td class="name">DO7</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO7','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO7','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #5a5a5a" height="24px">
+            <td class="ch">DO08</td>
+            <td class="name">DO8</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO8','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO8','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #808080" height="24px">
+            <td class="ch">DO09</td>
+            <td class="name">DO9</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO9','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO9','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #5a5a5a" height="24px">
+            <td class="ch">DO10</td>
+            <td class="name">DO10</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO10','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO10','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #808080" height="24px">
+            <td class="ch">DO11</td>
+            <td class="name">DO11</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO11','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO11','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #5a5a5a" height="24px">
+            <td class="ch">DO12</td>
+            <td class="name">DO12</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO12','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO12','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #808080" height="24px">
+            <td class="ch">DO13</td>
+            <td class="name">DO13</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO13','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO13','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #5a5a5a" height="24px">
+            <td class="ch">DO14</td>
+            <td class="name">DO14</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO14','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO14','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #808080" height="24px">
+            <td class="ch">DO15</td>
+            <td class="name">DO15</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO15','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO15','OFF');">
+            </td>
+        </tr>
+        <tr style="background-color: #5a5a5a" height="24px">
+            <td class="ch">DO16</td>
+            <td class="name">DO16</td>
+            <td class="signal" style="background-color: #FF0000"></td>
+            <td class="on">
+                <input type="button" class="on_button" value="ON" onclick="OutputDO(1,'ON','DO16','ON');">
+            </td>
+            <td class="off">
+                <input type="button" class="off_button" value="OFF" onclick="OutputDO(1,'OFF','DO16','OFF');">
+            </td>
+        </tr>
+      </tbody>
+	</table>
+</div>
+
+</body></html>
+
