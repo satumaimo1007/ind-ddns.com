@@ -1,4 +1,3 @@
-'use strict';
 
 function getCookie(key,  tmp1, tmp2, xx1, xx2, xx3) {
     tmp1 = " " + document.cookie + ";";
