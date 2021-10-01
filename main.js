@@ -1,5 +1,5 @@
 (function(){
-    var KasperskyLab = {SIGNATURE:"7D8B79A2-8974-4D7B-A76A-F4F29624C06BZy3ot9hdtx30RgBeiunCWarB-TpsWMQFIRsQ6wGKSEbm8NKDUohgLLBoRzEsfxSM1BhVfi9S7ZxcEITYV4C73g",PREFIX:"http://gc.kis.v2.scr.kaspersky-labs.com/",INJECT_ID:"FD126C42-EBFA-4E12-B309-BB3FDD723AC1",RESOURCE_ID:"E3E8934C-235A-4B0E-825A-35A08381A191",IsWebExtension: function(){return false;}}; var KasperskyLab = (function (context) {
+    var KasperskyLab = {IsWebExtension: function(){return false;}}; var KasperskyLab = (function (context) {
         function GetClass(obj) {
             if (typeof obj === "undefined")
                 return "undefined";
